@@ -16,14 +16,14 @@ namespace ZapasPractica.Repositories
 
         public async Task<List<Zapatilla>> GetZapatillasAsync()
         {
-            var consulta = from datos in this.context.Zapatillas
+            var consulta = from datos in context.Zapatillas
                            select datos;
             return await consulta.ToListAsync();
         }
 
         public async Task<Zapatilla> FindZapatillaAsync(int idZapa)
         {
-            var consulta = from datos in this.context.Zapatillas
+            var consulta = from datos in context.Zapatillas
                            where datos.IdProducto == idZapa
                            select datos;
             return await consulta.FirstOrDefaultAsync();
@@ -31,7 +31,7 @@ namespace ZapasPractica.Repositories
 
         public async Task<int> GetCountImagenesZapaAsync(int idzapa)
         {
-            return await this.context.Imagenes.Where(z => z.IdProducto == idzapa).CountAsync();
+            return await context.Imagenes.Where(z => z.IdProducto == idzapa).CountAsync();
         }
 
         public async Task<ImagenZapatilla> GetImagenZapaAsync(int idzapa, long? posicion)
@@ -39,8 +39,7 @@ namespace ZapasPractica.Repositories
             string sql = "SP_IMAGENES_ZAPATILLAS @IDPRODUCTO, @POSICION";
             SqlParameter pamId = new SqlParameter("@IDPRODUCTO", idzapa);
             SqlParameter pamPos = new SqlParameter("@POSICION", posicion);
-            var consulta =
-                this.context.Imagenes.FromSqlRaw(sql, pamId, pamPos);
+            var consulta = context.Imagenes.FromSqlRaw(sql, pamId, pamPos);
             return consulta.AsEnumerable().FirstOrDefault();
         }
     }

@@ -1,0 +1,67 @@
+﻿@model Zapatilla
+
+@{
+    int numRegistros = (int)ViewData["registros"];
+}
+
+<table class="table table-bordered">
+    <tr>
+        <td>Nombre: @Model.Nombre</td>
+    </tr>
+    <tr>
+        <td>@Model.Descripcion</td>
+    </tr>
+    <tr>
+        <td>Precio: @Model.Precio</td>
+    </tr>
+</table>
+
+<h2>Imagen @ViewData["NUMPAGINA"] de @numRegistros</h2>
+
+<div>
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item">
+            <a asp-controller="Zapatillas"
+               asp-action="Details"
+               asp-route-posicion="1"
+               asp-route-idzapa=@Model.IdProducto>
+                Primero
+            </a>
+        </li>
+        <li class="list-group-item">
+            <a asp-controller="Zapatillas"
+               asp-action="Details"
+               asp-route-posicion="@ViewData["ANTERIOR"]"
+               asp-route-idzapa=@Model.IdProducto>
+                Anterior
+            </a>
+        </li>
+        <li class="list-group-item">
+            <a asp-controller="Zapatillas"
+               asp-action="Details"
+               asp-route-posicion="@ViewData["SIGUIENTE"]"
+               asp-route-idzapa=@Model.IdProducto>
+                Siguiente
+            </a>
+        </li>
+        <li class="list-group-item">
+            <a asp-controller="Zapatillas"
+               asp-action="Details"
+               asp-route-posicion="@ViewData["ULTIMO"]"
+               asp-route-idzapa=@Model.IdProducto>
+                Ultimo
+            </a>
+        </li>
+    </ul>
+</div>
+
+<div id="contenedorimagenes"></div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function()
+        {
+            $("#contenedorimagenes").load("/Zapatillas/_ImagenPartial?idzapa="+@Model.IdProducto);
+        })
+    </script>
+}
